@@ -1,0 +1,109 @@
+/* 배경과 레이아웃 */
+.login-wrapper {
+    min-height: 100vh;
+    background-color: #FBFAFB;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* 로고 박스 */
+  .logo-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 30px;
+  }
+  
+  .logo-box img {
+    height: 200px;
+  }
+  
+  .logo-text {
+    font-size: 20px;
+    font-weight: bold;
+    color: #222;
+  }
+  
+  .sk-red {
+    color: #ea002c;
+  }
+  
+  /* 로그인 카드 */
+  .login-card {
+    background: white;
+    padding: 32px;
+    border-radius: 16px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+    width: 100%;
+    max-width: 360px;
+  }
+  
+  .login-title {
+    text-align: center;
+    color: #ea002c;
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 24px;
+  }
+  
+  .login-card form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .login-card label {
+    margin-bottom: 4px;
+    font-size: 14px;
+  }
+  
+  .login-card input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    margin-bottom: 16px;
+    font-size: 14px;
+  }
+  
+  .login-button {
+    background-color: #ea002c;
+    color: white;
+    padding: 12px;
+    font-size: 15px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 4px;
+  }
+  
+  .login-button:hover {
+    background-color: #c90027;
+  }
+  
+  .extra-links {
+    text-align: right;
+    font-size: 13px;
+    margin-top: 6px;
+    color: #444;
+  }
+  
+  hr {
+    margin: 20px 0;
+    border: none;
+    border-top: 1px solid #ccc;
+  }
+  
+  .signup-line {
+    font-size: 13px;
+    text-align: center;
+    color: #444;
+  }
+  
+  .signup-link {
+    color: #ea002c;
+    font-weight: 500;
+    margin-left: 4px;
+    text-decoration: none;
+  }
+  
