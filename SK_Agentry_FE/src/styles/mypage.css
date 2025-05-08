@@ -45,7 +45,7 @@
   
   .title {
     color: #ea002c;
-    font-size: 24px;
+    font-size: 27px;
     font-weight: bold;
     margin-bottom: 24px;
   }
@@ -63,7 +63,7 @@
   }
   
   .company-card h2 {
-    font-size: 20px;
+    font-size: 27px;
     font-weight: bold;
   }
   
@@ -78,18 +78,16 @@
   
   /* 구매한 에이전트 */
   .section-title {
-    font-size: 18px;
+    font-size: 20px;
     font-weight: bold;
     margin-bottom: 16px;
   }
   
   .agent-list {
-    display: flex;
-    gap: 16px;
-    overflow-x: auto;
-    padding-bottom: 12px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 20px;
     margin-bottom: 40px;
-    scroll-snap-type: x mandatory; 
   }
   
   .agent-list::-webkit-scrollbar {
@@ -104,17 +102,20 @@
   
   .agent-card {
     background: white;
-    border: 2px solid #444;
+    border: 2px solid #ccc;
     border-radius: 10px;
     padding: 16px;
-    min-width: 240px;
-    flex-shrink: 0;
-    scroll-snap-align: start;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
   }
+  
   
   .agent-card h3 {
     font-size: 16px;
     font-weight: bold;
+    margin-bottom: 4px;
   }
   
   .agent-card .tag {
@@ -126,6 +127,7 @@
   .card-buttons {
     display: flex;
     gap: 8px;
+    justify-content: center;
   }
   
   .run-btn {

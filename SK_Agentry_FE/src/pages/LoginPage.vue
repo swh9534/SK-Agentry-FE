@@ -1,10 +1,8 @@
 <template>
   <div class="login-wrapper">
     <!-- 로고 영역 -->
-    <div class="logo-wrapper">
-      <router-link to="/home">
-          <img src="/SK_Agentry_logo.png" alt="SK Agentry 로고" />
-        </router-link>
+    <div class="logo-box">
+      <img src="/SK_Agentry_logo.png" alt="SK Agentry 로고" />
     </div>
     <!-- 로그인 카드 -->
     <div class="login-card">
@@ -32,7 +30,6 @@
     </div>
   </div>
 </template>
-
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
@@ -53,7 +50,7 @@ const handleLogin = async () => {
   }
 
   try {
-    const response = await fetch('/api/login', {
+    const response = await fetch('http://10.250.172.225:8000/auth/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -66,15 +63,18 @@ const handleLogin = async () => {
 
     const result = await response.json()
 
-    if (response.ok && result.success) {
-      localStorage.setItem('loggedInUser', username.value)
+    if (response.ok && result.access_token) {
+      // 토큰 저장
+      localStorage.setItem('accessToken', result.access_token)
+
       router.push('/home')
     } else {
-      alert('아이디 또는 비밀번호가 일치하지 않습니다.')
+      alert(result.detail || '아이디 또는 비밀번호가 일치하지 않습니다.')
     }
   } catch (error) {
     console.error('로그인 오류:', error)
     alert('서버 오류가 발생했습니다.')
   }
 }
+
 </script>

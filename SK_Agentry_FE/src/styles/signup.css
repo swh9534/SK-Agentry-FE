@@ -29,7 +29,7 @@
   .signup-title {
     text-align: center;
     color: #ea002c;
-    font-size: 22px;
+    font-size: 27px;
     font-weight: bold;
     margin-bottom: 24px;
   }
@@ -51,6 +51,7 @@
   .signup-button {
     background-color: #ea002c;
     color: white;
+    font-weight: bold;
     padding: 12px;
     font-size: 15px;
     border: none;

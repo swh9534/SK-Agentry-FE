@@ -1,16 +1,14 @@
 <template>
   <div class="signup-wrapper">
     <div class="logo-wrapper">
-      <router-link to="/home">
-          <img src="/SK_Agentry_logo.png" alt="SK Agentry 로고" />
-        </router-link>
+        <img src="/SK_Agentry_logo.png" alt="SK Agentry 로고" />
     </div>
     <div class="signup-card">
       <h2 class="signup-title">회원가입</h2>
       <form @submit.prevent="submitForm">
         <input type="text" v-model="form.id" placeholder="아이디" />
         <input type="password" v-model="form.password" placeholder="비밀번호" />
-        <input type="text" v-model="form.company" placeholder="기업명" />
+        <input type="text" v-model="form.name" placeholder="기업명" />
 
         <!-- 산업군 선택 -->
         <select v-model="form.industry">
@@ -18,20 +16,20 @@
           <option v-for="item in industries" :key="item">{{ item }}</option>
         </select>
 
-        <input type="number" v-model="form.employees" placeholder="직원수" />
+        <input type="number" v-model="form.scale" placeholder="직원수" />
 
         <!-- 관심분야 -->
         <div class="interest-box">
           <label>관심분야</label>
           <div class="interest-scroll">
             <div v-for="field in interests" :key="field" @click="toggleInterest(field)"
-              :class="['interest-chip', form.interest.includes(field) ? 'selected' : '']">
+              :class="['interest-chip', form.interests === field ? 'selected' : '']">
               {{ field }}
             </div>
           </div>
         </div>
 
-        <input type="number" v-model="form.budget" placeholder="예산 규모" />
+        <input type="number" v-model="form.budget_size" placeholder="예산 규모" />
 
         <button class="signup-button">가입하기</button>
       </form>
@@ -44,41 +42,63 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
-const industries = ['공공', '제조', '금융', '유통/물류', 'IT/통신', '서비스업', '기타']
+
+
+
 const interests = ['스마트 팩토리', 'ESG', '고객 상담 자동화', '문서 자동화', 'AI 분석', '업무 효율화']
+const industries = ['공공', '제조', '금융', '유통/물류', 'IT/통신', '서비스업', '기타']
 
 const form = ref({
   id: '',
   password: '',
-  company: '',
+  name: '',          
   industry: '',
-  employees: '',
-  interest: [],
-  budget: ''
+  scale: '',
+  interests: '',   
+  budget_size: ''
 })
 
 function toggleInterest(field) {
-  const idx = form.value.interest.indexOf(field)
-  if (idx === -1) form.value.interest.push(field)
-  else form.value.interest.splice(idx, 1)
+  form.value.interests = field 
 }
 
-function submitForm() {
+async function submitForm() {
   const f = form.value
 
-  // 유효성 검사
-  if (!f.id || !f.password || !f.company || !f.industry || !f.employees || f.interest.length === 0 || !f.budget) {
+  if (!f.id || !f.password || !f.name || !f.industry || !f.scale || !f.interests || !f.budget_size) {
     alert('모든 항목을 입력해 주세요.')
     return
   }
 
-  // 가입 완료 처리
-  alert('회원가입이 완료되었습니다.')
-  console.log('제출된 정보:', f)
+  try {
+    const response = await fetch('http://10.250.172.225:8000/user/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        ...f,
+        scale: Number(f.scale),
+        budget_size: parseFloat(f.budget_size)
+      })
+    })
 
-  // 로그인 화면으로 이동
-  router.push('/login')
+    const result = await response.json()
+
+    if (response.ok && result.success) {
+
+      localStorage.setItem('user_id', result.user_id)
+      
+      alert('회원가입이 완료되었습니다.')
+      router.push('/login')
+    } else {
+      alert(result.detail || '회원가입에 실패했습니다.')
+    }
+  } catch (err) {
+    console.error('회원가입 오류:', err)
+    alert('서버 오류가 발생했습니다.')
+  }
 }
 </script>
+
+
 
 <style scoped src="../styles/signup.css" />
