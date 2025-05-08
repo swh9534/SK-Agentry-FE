@@ -20,8 +20,13 @@
       <section class="agent-section">
         <h2 class="section-title red">맞춤 추천 에이전트</h2>
         <div class="agent-scroll">
-          <div class="agent-card" v-for="agent in recommendedAgents" :key="agent.id" @click="goToDetail(agent.id)"
-            style="cursor: pointer">
+          <div
+            class="agent-card"
+            v-for="agent in recommendedAgents"
+            :key="agent.id"
+            @click="goToDetail(agent.id)"
+            style="cursor: pointer"
+          >
             <h3>{{ agent.name }}</h3>
             <p class="tag">#{{ agent.tag }}</p>
             <div class="buttons">
@@ -36,8 +41,13 @@
       <section class="agent-section">
         <h2 class="section-title red">인기 에이전트</h2>
         <div class="agent-scroll">
-          <div class="agent-card" v-for="agent in popularAgents" :key="agent.id" @click="goToDetail(agent.id)"
-            style="cursor: pointer">
+          <div
+            class="agent-card"
+            v-for="agent in popularAgents"
+            :key="agent.id"
+            @click="goToDetail(agent.id)"
+            style="cursor: pointer"
+          >
             <h3>{{ agent.name }}</h3>
             <p class="tag">#{{ agent.tag }}</p>
             <div class="buttons">
@@ -49,47 +59,45 @@
       </section>
     </div>
   </div>
-
-  <ReportPromptModal
-  v-if="showModal"
-  @confirm="handleConfirm"
-  @close="handleClose"/>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import ReportPromptModal from '../components/ReportPromptModal.vue'
 
 const router = useRouter()
-const showModal = ref(false)
 
-// 로그인된 사용자 ID
-const userId = localStorage.getItem('loggedInUser') || 'defaultUser'
+const recommendedAgents = ref([])
+const popularAgents = ref([])
 
-// 테스트용: 항상 모달 띄우기
-showModal.value = true
-
-// ✅ 실제 조건부 로직은 추후 사용 가능하도록 주석 처리
-// onMounted(() => {
-//   const key = `reportPrompt_shown_${userId}`
-//   const shown = localStorage.getItem(key)
-//   if (!shown) {
-//     showModal.value = true
-//   }
-// })
-
-function handleConfirm() {
-  localStorage.setItem(`reportPrompt_shown_${userId}`, 'true')
-  showModal.value = false
-  router.push('/ai-report') // 보고서 페이지로 이동
+const fetchRecommendedAgents = async () => {
+  try {
+    const res = await fetch('http://localhost:8000/api/recommendations')
+    const data = await res.json()
+    recommendedAgents.value = data.agents || []
+  } catch (err) {
+    console.error('맞춤 추천 에이전트 로딩 실패:', err)
+  }
 }
 
-function handleClose() {
-  localStorage.setItem(`reportPrompt_shown_${userId}`, 'true')
-  showModal.value = false
+const fetchPopularAgents = async () => {
+  try {
+    const res = await fetch('http://localhost:8000/api/popular')
+    const data = await res.json()
+    popularAgents.value = data.agents || []
+  } catch (err) {
+    console.error('인기 에이전트 로딩 실패:', err)
+  }
 }
+
+const goToDetail = (agentId) => {
+  router.push(`/agent-detail/${agentId}`)
+}
+
+onMounted(() => {
+  fetchRecommendedAgents()
+  fetchPopularAgents()
+})
 </script>
-
 
 <style scoped src="../styles/home.css" />

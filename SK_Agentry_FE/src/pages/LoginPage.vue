@@ -19,7 +19,7 @@
       </form>
 
       <div class="extra-links">
-        <a href="#">비밀번호 찾기</a>
+        <a href="#" class="forgot-password-link">비밀번호 찾기</a>
       </div>
 
       <hr />
