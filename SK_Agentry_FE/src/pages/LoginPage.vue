@@ -36,18 +36,45 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import '../styles/login.css' 
+import '../styles/login.css'
 
 const username = ref('')
 const password = ref('')
 const router = useRouter()
 
 const goToSignup = () => {
-  router.push('/signup') 
+  router.push('/signup')
 }
 
-const handleLogin = () => {
-  console.log('로그인 시도:', username.value, password.value)
-  router.push('/home') 
+const handleLogin = async () => {
+  if (!username.value || !password.value) {
+    alert('아이디와 비밀번호를 입력해주세요.')
+    return
+  }
+
+  try {
+    const response = await fetch('/api/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        id: username.value,
+        password: password.value
+      })
+    })
+
+    const result = await response.json()
+
+    if (response.ok && result.success) {
+      localStorage.setItem('loggedInUser', username.value)
+      router.push('/home')
+    } else {
+      alert('아이디 또는 비밀번호가 일치하지 않습니다.')
+    }
+  } catch (error) {
+    console.error('로그인 오류:', error)
+    alert('서버 오류가 발생했습니다.')
+  }
 }
 </script>

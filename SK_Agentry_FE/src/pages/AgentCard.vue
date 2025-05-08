@@ -12,7 +12,7 @@
         <button
           class="buy-btn"
           :class="{ disabled: agent.purchased }"
-          @click="handleBuy"
+          @click.stop="handlePurchase(agent)"
         >
           {{ agent.purchased ? '다운로드' : '구매하기' }}
         </button>
@@ -21,6 +21,8 @@
   </template>
   
   <script setup>
+  import { usePurchaseStore } from '../composables/usePurchaseStore' 
+  const { addPurchase } = usePurchaseStore()
   defineProps({
     agent: {
       type: Object,
@@ -28,14 +30,10 @@
     }
   })
   
-  function handleBuy() {
-    if (agent.purchased) {
-      // 다운로드 처리
-      window.open(agent.downloadUrl, '_blank')
-    } else {
-      alert('결제 페이지로 이동합니다.')
-      // 결제 연동 코드 추가 가능
-    }
+  const handlePurchase = (agent) => {
+    addPurchase(agent)
+    agent.purchased = true
+    alert('구매가 완료되었습니다.')
   }
   </script>
   

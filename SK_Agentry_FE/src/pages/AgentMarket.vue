@@ -55,6 +55,11 @@ import { ref, computed } from 'vue'
 import AgentCard from './AgentCard.vue'
 import '../styles/agentMarket.css'
 import { useRouter } from 'vue-router'
+import { usePurchaseStore } from '../composables/usePurchaseStore'
+const { addPurchase } = usePurchaseStore()
+
+
+
 const router = useRouter()
 
 const industries = ['공공', '제조', '금융', '유통/물류', 'IT/통신', '서비스업', '기타']
@@ -63,8 +68,7 @@ const interests = ['스마트 팩토리', 'ESG', '고객 상담 자동화', '문
 const selectedIndustry = ref('')
 const selectedInterest = ref('')
 const selectedSort = ref('latest')
-
-const agents = [
+const agents = ref([
   {
     id: 1,
     name: '이메일 분류 마법사',
@@ -72,7 +76,8 @@ const agents = [
     tags: ['메일', '문서 자동화'],
     industry: 'IT/통신',
     purchased: false,
-    downloadUrl: '/downloads/email_sorter.py'
+    downloadUrl: '/downloads/email_sorter.py',
+    createdAt: '2024-05-01'
   },
   {
     id: 2,
@@ -80,24 +85,27 @@ const agents = [
     description: 'GPT-4 기반 회의 자동 요약 시스템',
     tags: ['협업', '문서 자동화'],
     industry: '서비스업',
-    purchased: true,
-    downloadUrl: '/downloads/slack_summary.py'
+    purchased: false,
+    downloadUrl: '/downloads/slack_summary.py',
+    createdAt: '2024-05-07'
   }
-]
+])
 
 const filteredAgents = computed(() => {
-  return agents.filter(agent => {
-    const matchIndustry =
-      !selectedIndustry.value || agent.industry === selectedIndustry.value
-    const matchInterest =
-      !selectedInterest.value || agent.tags.includes(selectedInterest.value)
+  let filtered = agents.value.filter(agent => {
+    const matchIndustry = !selectedIndustry.value || agent.industry === selectedIndustry.value
+    const matchInterest = !selectedInterest.value || agent.tags.includes(selectedInterest.value)
     return matchIndustry && matchInterest
   })
+
+  if (selectedSort.value === 'latest') {
+    filtered.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+  }
+
+  return filtered
 })
 
-
 function goToDetail(id) {
-  router.push(`/agents/${id}`)
+  router.push(`/agents/${id}`);
 }
-
 </script>

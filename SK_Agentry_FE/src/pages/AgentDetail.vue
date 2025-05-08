@@ -39,11 +39,6 @@
           <ul>
             <li v-for="item in agent.features" :key="item">• {{ item }}</li>
           </ul>
-
-          <div class="download-buttons">
-            <button>.py</button>
-            <button>.yaml</button>
-          </div>
         </div>
       </div>
 

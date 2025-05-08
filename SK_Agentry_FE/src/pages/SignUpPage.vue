@@ -31,7 +31,7 @@
           </div>
         </div>
 
-        <input type="text" v-model="form.budget" placeholder="예산 규모" />
+        <input type="number" v-model="form.budget" placeholder="예산 규모" />
 
         <button class="signup-button">가입하기</button>
       </form>
@@ -41,7 +41,9 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
 const industries = ['공공', '제조', '금융', '유통/물류', 'IT/통신', '서비스업', '기타']
 const interests = ['스마트 팩토리', 'ESG', '고객 상담 자동화', '문서 자동화', 'AI 분석', '업무 효율화']
 
@@ -62,7 +64,20 @@ function toggleInterest(field) {
 }
 
 function submitForm() {
-  console.log('제출 데이터:', form.value)
+  const f = form.value
+
+  // 유효성 검사
+  if (!f.id || !f.password || !f.company || !f.industry || !f.employees || f.interest.length === 0 || !f.budget) {
+    alert('모든 항목을 입력해 주세요.')
+    return
+  }
+
+  // 가입 완료 처리
+  alert('회원가입이 완료되었습니다.')
+  console.log('제출된 정보:', f)
+
+  // 로그인 화면으로 이동
+  router.push('/login')
 }
 </script>
 

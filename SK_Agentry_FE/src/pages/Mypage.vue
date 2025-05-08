@@ -31,16 +31,15 @@
             <!-- 구매한 에이전트 -->
             <h2 class="section-title">구매한 에이전트</h2>
             <div class="agent-list">
-                <div class="agent-card" v-for="n in 2" :key="n">
-                    <h3>이메일 분류 마법사</h3>
-                    <p class="tag">#Gmail API</p>
+                <div class="agent-card" v-for="agent in purchasedAgents" :key="agent.id">
+                    <h3>{{ agent.name }}</h3>
+                    <p class="tag">#{{ agent.tags[0] }}</p> 
                     <div class="card-buttons">
                         <button class="run-btn">실행</button>
                         <button class="download-btn">다운로드</button>
                     </div>
                 </div>
             </div>
-
 
             <!-- 기업 분석 결과 -->
             <div class="analysis-section">
@@ -60,6 +59,8 @@
 
 <script setup>
 import { useRouter } from 'vue-router'
+import { usePurchaseStore } from '../composables/usePurchaseStore'
+const { purchasedAgents } = usePurchaseStore()
 const router = useRouter()
 
 const handleLogout = () => {
