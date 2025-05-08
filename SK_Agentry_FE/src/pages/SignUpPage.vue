@@ -1,7 +1,9 @@
 <template>
   <div class="signup-wrapper">
     <div class="logo-wrapper">
-      <img src="/SK_Agentry_logo.png" alt="SK Agentry Logo" />
+      <router-link to="/home">
+          <img src="/SK_Agentry_logo.png" alt="SK Agentry 로고" />
+        </router-link>
     </div>
     <div class="signup-card">
       <h2 class="signup-title">회원가입</h2>

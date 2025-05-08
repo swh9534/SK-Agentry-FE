@@ -1,23 +1,55 @@
+.market-wrapper {
+  background-color: #FBFAFB;
+  min-height: 100vh;
+  font-family: sans-serif;
+}
+/* 네비게이션 바 전체 영역 */
+.nav-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #FBFAFB;
+  padding: 16px 32px;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.05);
+}
+/* 메뉴 링크 */
+.nav-menu {
+  display: flex;
+  gap: 32px;
+  font-size: 15px;
+  margin-left: auto;
+}
+
+.nav-menu a {
+  color: #222;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.nav-menu a.router-link-active {
+  border-bottom: 2px solid #ea002c;
+  color: #ea002c;
+}
 .logo-wrapper {
-    position: absolute;
-    top: 0px;
-    left: 24px;
-  }
+  padding-left: 12px;
+}
   
   .logo-wrapper img {
-    height: 200px;
+    height: 60px;
   }
   
-
-.market-wrapper {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 40px 20px;
+  
+  .market-content {
+    max-width: 960px;
+    margin: 0 auto; 
+    padding: 40px 24px 0 24px;
     background-color: #FBFAFB;
   }
   
   .market-title {
     font-size: 26px;
+    margin: 0;
+    background-color: #FBFAFB;
     color: #ea002c;
     font-weight: bold;
     margin-bottom: 24px;

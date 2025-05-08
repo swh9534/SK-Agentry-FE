@@ -1,0 +1,133 @@
+.home-wrapper {
+    background-color: #FBFAFB;
+    min-height: 100vh;
+    font-family: sans-serif;
+  }
+  
+  /* ──────────────── 내비게이션 영역 ──────────────── */
+  .nav-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #FBFAFB;
+    padding: 16px 32px;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.05);
+  }
+  
+  .logo-box img {
+    height: 200px;
+  }
+  
+  .nav-menu {
+    display: flex;
+    gap: 32px;
+    margin-left: auto;
+    font-size: 15px;
+  }
+  
+  .nav-menu a {
+    color: #222;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  
+  .nav-menu a.router-link-active {
+    color: #ea002c;
+    border-bottom: 2px solid #ea002c;
+  }
+  
+  /* ──────────────── 콘텐츠 ──────────────── */
+  .home-content {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 40px 24px;
+  }
+  
+  .section-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 16px;
+  }
+  
+  .section-title.red {
+    color: #ea002c;
+  }
+  
+  .agent-section {
+    margin-bottom: 56px;
+    position: relative;
+  }
+  
+  /* ──────────────── 가로 스크롤 카드 ──────────────── */
+  .agent-scroll {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    scroll-snap-type: x mandatory;
+  }
+  
+  .agent-scroll::-webkit-scrollbar {
+    height: 6px;
+  }
+  
+  .agent-scroll::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 3px;
+  }
+  
+  /* ──────────────── 카드 자체 ──────────────── */
+  .agent-card {
+    background: white;
+    border: 3px solid #f47725;
+    border-radius: 10px;
+    padding: 16px;
+    min-width: 250px;
+    max-width: 250px;
+    flex-shrink: 0;
+    scroll-snap-align: start;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-sizing: border-box;
+  }
+  
+  .agent-card h3 {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 6px;
+  }
+  
+  .agent-card .tag {
+    font-size: 14px;
+    color: white;
+    margin-bottom: 12px;
+  }
+  
+  /* ──────────────── 버튼 정렬 ──────────────── */
+  .buttons {
+    display: flex;
+    gap: 8px;
+    margin-top: auto;
+  }
+  
+  .run-btn {
+    background-color: #ea002c;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  
+  .buy-btn {
+    background: white;
+    color: #ea002c;
+    border: 1.5px solid #ea002c;
+    padding: 8px 14px;
+    font-size: 14px;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  

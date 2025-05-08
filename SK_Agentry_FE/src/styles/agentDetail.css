@@ -1,0 +1,132 @@
+.agent-page {
+    background-color: #FBFAFB;
+    min-height: 100vh;
+  }
+  
+  .nav-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #FBFAFB;
+    padding: 16px 32px;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.05);
+  }
+  
+  .logo-box img {
+    height: 200px;
+  }
+  
+  .nav-menu {
+    display: flex;
+    gap: 32px;
+    font-size: 15px;
+    margin-left: auto;
+  }
+  
+  .nav-menu a {
+    color: #222;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  
+  .nav-menu a.router-link-active {
+    color: #ea002c;
+    border-bottom: 2px solid #ea002c;
+  }
+  
+  .agent-detail-container {
+    max-width: 960px;
+    margin: 40px auto;
+    padding: 24px;
+  }
+  
+  .header h1 {
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .sub {
+    margin-top: 4px;
+    color: #555;
+  }
+  
+  .price {
+    margin-top: 8px;
+    background-color: #f47725;
+    color: white;
+    display: inline-block;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-weight: bold;
+  }
+  
+  .tabs {
+    display: flex;
+    gap: 24px;
+    margin: 32px 0 16px;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .tab {
+    padding-bottom: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    color: #666;
+  }
+  
+  .tab.active {
+    border-bottom: 2px solid #ea002c;
+    color: #ea002c;
+  }
+  
+  .content-area {
+    display: flex;
+    gap: 32px;
+    align-items: flex-start;
+  }
+  
+  .image-box {
+    width: 200px;
+    height: 200px;
+    background-color: #fff2e8;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .image-box img {
+    width: 120px;
+  }
+  
+  .features h3 {
+    font-size: 16px;
+    margin-bottom: 12px;
+  }
+  
+  .features ul {
+    margin-bottom: 20px;
+  }
+  
+  .download-buttons button {
+    background-color: #f7f7f7;
+    border: 1px solid #ccc;
+    padding: 8px 14px;
+    border-radius: 6px;
+    margin-right: 10px;
+    cursor: pointer;
+  }
+  
+  .run-button {
+    margin-top: 40px;
+    width: 100%;
+    background-color: #ea002c;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    padding: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  

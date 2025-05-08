@@ -1,10 +1,11 @@
 <template>
   <div class="login-wrapper">
     <!-- 로고 영역 -->
-    <div class="logo-box">
-      <img src="/SK_Agentry_logo.png" alt="SK Agentry 로고" />
+    <div class="logo-wrapper">
+      <router-link to="/home">
+          <img src="/SK_Agentry_logo.png" alt="SK Agentry 로고" />
+        </router-link>
     </div>
-
     <!-- 로그인 카드 -->
     <div class="login-card">
       <h2 class="login-title">로그인</h2>
@@ -47,5 +48,6 @@ const goToSignup = () => {
 
 const handleLogin = () => {
   console.log('로그인 시도:', username.value, password.value)
+  router.push('/home') 
 }
 </script>
