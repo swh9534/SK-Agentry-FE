@@ -87,7 +87,9 @@
     margin-top: 6px;
     color: #444;
   }
-  
+  .extra-links a {
+    color: #ea002c;
+  }
   hr {
     margin: 20px 0;
     border: none;
