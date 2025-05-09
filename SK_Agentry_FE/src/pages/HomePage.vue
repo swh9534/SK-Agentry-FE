@@ -32,26 +32,31 @@
         </div>
       </section>
 
-      <!-- 인기 에이전트 -->
-      <section class="agent-section">
-        <h2 class="section-title red">인기 에이전트</h2>
-        <div class="agent-scroll">
-          <div class="agent-card" v-for="agent in popularAgents" :key="agent.id" @click="goToDetail(agent.id)"
-            style="cursor: pointer">
-            <h3>{{ agent.name }}</h3>
-            <p class="tag">#{{ agent.tag }}</p>
-            <div class="buttons">
-              <button class="run-btn">실행</button>
-              <button class="buy-btn">구매하기</button>
-            </div>
-          </div>
-        </div>
-      </section>
+      <!-- 전체 에이전트 -->
+<section class="agent-section">
+  <h2 class="section-title red">전체 에이전트</h2>
+  <div class="agent-list-vertical">
+    <div class="agent-card" v-for="agent in allAgents" :key="agent.agent_id" @click="goToDetail(agent.agent_id)"
+      style="cursor: pointer">
+      <h3>{{ agent.display_name }}</h3>
+      <p class="tag">#{{ agent.category }} | {{ agent.llm_type }}</p>
+      <div class="buttons">
+        <button class="run-btn">실행</button>
+        <button class="buy-btn">구매하기</button>
+      </div>
     </div>
   </div>
+</section>
+
+</div> <!-- 이거: .home-content -->
+</div> <!-- 이거: .home-wrapper -->
 </template>
+
+
+
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
+
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
@@ -60,6 +65,11 @@ const token = localStorage.getItem('accessToken')
 const userId = Number(localStorage.getItem('user_id'))
 const recommendedAgents = ref([])
 const popularAgents = ref([])
+
+const allAgents = ref([])
+const currentSlide = ref(0)
+const itemsPerSlide = 3
+
 
 const fetchRecommendedAgents = async () => {
   try {
@@ -75,13 +85,17 @@ const fetchRecommendedAgents = async () => {
   }
 }
 
-const fetchPopularAgents = async () => {
+const fetchAllAgents = async () => {
   try {
-    const res = await fetch('http://localhost:8000/api/popular')
+    const res = await fetch('http://10.250.172.225:8000/agent/all', {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
     const data = await res.json()
-    popularAgents.value = data.agents || []
+    allAgents.value = data.agents || data
   } catch (err) {
-    console.error('인기 에이전트 로딩 실패:', err)
+    console.error('전체 에이전트 로딩 실패:', err)
   }
 }
 
@@ -100,9 +114,8 @@ onMounted(() => {
     return
   }
 
-  // 평소 로직
   fetchRecommendedAgents()
-  fetchPopularAgents()
+  fetchAllAgents()
 })
 </script>
 
