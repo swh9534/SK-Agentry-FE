@@ -44,7 +44,7 @@
         </div>
       </div>
 
-      <button class="run-button">실행하기</button>
+      <button class="run-button" @click="goToRunPage">실행하기</button>
     </div>
 
     <!-- ✅ 로딩 표시 -->
@@ -57,8 +57,10 @@
 <script setup>
 import { ref, computed, onMounted } from "vue";
 import { useRoute } from "vue-router";
+import { useRouter } from "vue-router";
 
 const route = useRoute();
+const router = useRouter();
 const agentId = route.params.id;
 const agent = ref(null);
 
@@ -87,6 +89,9 @@ onMounted(async () => {
     console.error("에이전트 불러오기 실패", err);
   }
 });
+function goToRunPage() {
+  router.push(`/agent-run/${agentId}`);
+}
 </script>
 
 <style scoped src="../styles/agentDetail.css" />

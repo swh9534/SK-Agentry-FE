@@ -28,17 +28,19 @@
       </div>
     </div>
 
-    <button class="run-button">실행하기</button>
+    <button class="run-button" @click="goToRunPage">실행하기</button>
   </div>
 </template>
 
 <script setup>
 import { computed } from "vue";
+import { useRouter } from "vue-router";
 
 defineProps({
   agent: Object,
 });
 
+const router = useRouter();
 const price = 29000; // 필요시 agent.price로 연결
 
 // features가 JSON string이면 파싱
