@@ -46,7 +46,8 @@
             <div class="analysis-section">
                 <h2>기업 분석 결과</h2>
                 <div class="analysis-buttons">
-                    <button class="retry-btn">다시 하기</button>
+                    <button class="retry-btn" @click="handleRetry">다시 하기</button>
+
                     <button class="view-btn" @click="goToReport">결과 보기</button>
                 </div>
                 <div class="report-result" v-if="renderedMarkdown">
@@ -89,6 +90,10 @@ const handleLogout = () => {
     router.push('/login')
 }
 
+function handleRetry() {
+  router.push('/ai-report') 
+}
+
 async function goToReport() {
     const userRes = await fetch(`http://10.250.172.225:8000/user/${userId}`, {
         headers: { 'Authorization': `Bearer ${token}` }
@@ -115,11 +120,15 @@ async function goToReport() {
 }
 
 onMounted(async () => {
-    const userId = localStorage.getItem('user_id') 
+    const userId = localStorage.getItem('user_id')
     if (!userId) return
 
     try {
-        const res = await fetch(`http://10.250.172.225:8000/user/${userId}`)
+        const res = await fetch(`http://10.250.172.225:8000/user/${userId}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
         const data = await res.json()
 
         console.log('기업 정보:', data)

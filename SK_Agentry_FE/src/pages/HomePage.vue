@@ -66,12 +66,18 @@ import { useRouter } from 'vue-router'
 
 const router = useRouter()
 
+const token = localStorage.getItem('accessToken')
+const userId = Number(localStorage.getItem('user_id'))
 const recommendedAgents = ref([])
 const popularAgents = ref([])
 
 const fetchRecommendedAgents = async () => {
   try {
-    const res = await fetch('http://localhost:8000/api/recommendations')
+    const res = await fetch(`http://10.250.172.225:8000/agent/getRecom`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
     const data = await res.json()
     recommendedAgents.value = data.agents || []
   } catch (err) {
