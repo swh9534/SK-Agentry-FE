@@ -148,3 +148,19 @@
     grid-template-columns: repeat(4, 1fr); /* 4열 */
     gap: 20px;
   }
+
+  .agent-title-with-icon {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .agent-icon {
+    width: 40px;             /* 원하는 크기로 조정 가능 */
+    height: 40px;
+    object-fit: cover;       /* 이미지 꽉 차게 */
+    border-radius: 10%;      /* 원형 만들기 */
+    border: 1px solid #ccc;  /* 선택사항: 테두리 */
+  }
+  
+  

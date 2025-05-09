@@ -80,6 +80,7 @@ const fetchAllAgents = async () => {
       llm_type: agent.llm_type,
       language: agent.language || '한국어',
       purchased: false,
+      image_url: agent.image_url,
       createdAt: agent.created_at || '2024-01-01',
     }))
 

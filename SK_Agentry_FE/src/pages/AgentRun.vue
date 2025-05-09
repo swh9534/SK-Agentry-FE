@@ -49,7 +49,7 @@ const token = localStorage.getItem("accessToken");
 
 onMounted(async () => {
   try {
-    const res = await fetch(`http://10.250.172.225:8000/agent/${agentId}`, {
+    const res = await fetch(`http://10.250.172.225:8000/agent/detail/${agentId}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     agent.value = await res.json();

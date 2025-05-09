@@ -22,7 +22,10 @@
         <div class="agent-scroll">
           <div class="agent-card" v-for="agent in recommendedAgents" :key="agent.agent_id"
             @click="goToDetail(agent.agent_id)" style="cursor: pointer">
-            <h3>{{ agent.display_name }}</h3>
+            <h3 class="agent-title-with-icon">
+              <img v-if="agent.image_url" :src="agent.image_url" class="agent-icon" />
+              {{ agent.display_name }}
+            </h3>
             <p class="tag">#{{ agent.category }} | {{ agent.llm_type }}</p>
             <div class="buttons">
               <button class="run-btn">실행</button>
@@ -33,30 +36,33 @@
       </section>
 
       <!-- 전체 에이전트 -->
-<section class="agent-section">
-  <h2 class="section-title red">전체 에이전트</h2>
-  <div class="agent-list-vertical">
-    <div class="agent-card" v-for="agent in allAgents" :key="agent.agent_id" @click="goToDetail(agent.agent_id)"
-      style="cursor: pointer">
-      <h3>{{ agent.display_name }}</h3>
-      <p class="tag">#{{ agent.category }} | {{ agent.llm_type }}</p>
-      <div class="buttons">
-        <button class="run-btn">실행</button>
-        <button class="buy-btn">구매하기</button>
-      </div>
-    </div>
-  </div>
-</section>
+      <section class="agent-section">
+        <h2 class="section-title red">전체 에이전트</h2>
+        <div class="agent-list-vertical">
+          <div class="agent-card" v-for="agent in allAgents" :key="agent.agent_id" @click="goToDetail(agent.agent_id)"
+            style="cursor: pointer">
+            <h3 class="agent-title-with-icon">
+              <img v-if="agent.image_url" :src="agent.image_url" class="agent-icon" />
+              {{ agent.display_name }}
+            </h3>
+            <p class="tag">#{{ agent.category }} | {{ agent.llm_type }}</p>
+            <div class="buttons">
+              <button class="run-btn">실행</button>
+              <button class="buy-btn">구매하기</button>
+            </div>
+          </div>
+        </div>
+      </section>
 
-</div> <!-- 이거: .home-content -->
-</div> <!-- 이거: .home-wrapper -->
+    </div> <!-- 이거: .home-content -->
+  </div> <!-- 이거: .home-wrapper -->
 </template>
 
 
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
-
+import AgentCard from './AgentCard.vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
@@ -79,7 +85,18 @@ const fetchRecommendedAgents = async () => {
       }
     })
     const data = await res.json()
-    recommendedAgents.value = data
+    recommendedAgents.value = (data.agents || data).map(agent => ({
+      id: agent.agent_id,
+      display_name: agent.display_name,
+      description: agent.description || '설명이 없습니다.',
+      category: agent.category,
+      llm_type: agent.llm_type,
+      language: agent.language || '한국어',
+      image_url: agent.image_url, // 💡 여기!
+      purchased: false,
+      createdAt: agent.created_at || '2024-01-01',
+    }))
+
   } catch (err) {
     console.error('맞춤 추천 에이전트 로딩 실패:', err)
   }
@@ -100,7 +117,7 @@ const fetchAllAgents = async () => {
 }
 
 const goToDetail = (agentId) => {
-  router.push(`/agent-detail/${agentId}`)
+  router.push(`/agent/detail/${agentId}`)
 }
 
 onMounted(() => {
