@@ -60,7 +60,6 @@
     </div>
   </div>
 </template>
-
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
@@ -95,9 +94,21 @@ const goToDetail = (agentId) => {
 }
 
 onMounted(() => {
+  // ✅ 최초 1회 리포트 자동 생성
+  const userId = localStorage.getItem('user_id')
+  const reportKey = `ai_report_generated_${userId}`
+
+  if (!localStorage.getItem(reportKey)) {
+    localStorage.setItem(reportKey, 'true')
+    router.push('/ai-report')
+    return
+  }
+
+  // 평소 로직
   fetchRecommendedAgents()
   fetchPopularAgents()
 })
 </script>
+
 
 <style scoped src="../styles/home.css" />

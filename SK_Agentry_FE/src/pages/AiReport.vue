@@ -24,14 +24,8 @@
       <div class="progress-text">{{ progress }}%</div>
     </div>
 
-
-
-    <!-- 분석 결과 -->
-    <div v-if="renderedMarkdown" class="report-wrapper">
-      <!-- 분석 결과 전 수평선 구분 -->
-      <hr class="analysis-divider" />
-      <div class="markdown" v-html="renderedMarkdown"></div>
-    </div>
+    <!-- 결과 화면 -->
+    <div v-else class="report-wrapper" v-html="renderedMarkdown"></div>
   </div>
 </template>
 
@@ -46,9 +40,6 @@ const loadingMessage = ref('AI 리포트를 준비 중입니다...')
 
 const token = localStorage.getItem('accessToken')
 const userId = Number(localStorage.getItem('user_id'))
-
-console.log('token:', token)
-console.log('userId:', userId)
 
 const messages = [
   'AI 리포트를 생성 중입니다...',
@@ -67,7 +58,7 @@ function startLoading() {
       return
     }
 
-    progress.value += 2
+    progress.value += 5
     const msgIndex = Math.floor(progress.value / (100 / messages.length))
     loadingMessage.value = messages[Math.min(msgIndex, messages.length - 1)]
   }, 300)
@@ -110,8 +101,7 @@ async function generateAndLoadReport() {
       .replace(/\\n/g, '\n')
       .replace(/\\r/g, '')
       .replace(/\\t/g, '\t')
-      .replace(/^```markdown\s*/i, '')
-      .replace(/```$/, '');
+      .replace(/^```markdown\s*/i, '')  
 
     renderedMarkdown.value = marked(rawText)
   } catch (err) {
