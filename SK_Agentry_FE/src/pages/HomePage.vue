@@ -20,15 +20,10 @@
       <section class="agent-section">
         <h2 class="section-title red">맞춤 추천 에이전트</h2>
         <div class="agent-scroll">
-          <div
-            class="agent-card"
-            v-for="agent in recommendedAgents"
-            :key="agent.id"
-            @click="goToDetail(agent.id)"
-            style="cursor: pointer"
-          >
-            <h3>{{ agent.name }}</h3>
-            <p class="tag">#{{ agent.tag }}</p>
+          <div class="agent-card" v-for="agent in recommendedAgents" :key="agent.agent_id"
+            @click="goToDetail(agent.agent_id)" style="cursor: pointer">
+            <h3>{{ agent.display_name }}</h3>
+            <p class="tag">#{{ agent.category }} | {{ agent.llm_type }}</p>
             <div class="buttons">
               <button class="run-btn">실행</button>
               <button class="buy-btn">구매하기</button>
@@ -41,13 +36,8 @@
       <section class="agent-section">
         <h2 class="section-title red">인기 에이전트</h2>
         <div class="agent-scroll">
-          <div
-            class="agent-card"
-            v-for="agent in popularAgents"
-            :key="agent.id"
-            @click="goToDetail(agent.id)"
-            style="cursor: pointer"
-          >
+          <div class="agent-card" v-for="agent in popularAgents" :key="agent.id" @click="goToDetail(agent.id)"
+            style="cursor: pointer">
             <h3>{{ agent.name }}</h3>
             <p class="tag">#{{ agent.tag }}</p>
             <div class="buttons">
@@ -74,12 +64,12 @@ const popularAgents = ref([])
 const fetchRecommendedAgents = async () => {
   try {
     const res = await fetch(`http://10.250.172.225:8000/agent/getRecom`, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        })
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
     const data = await res.json()
-    recommendedAgents.value = data.agents || []
+    recommendedAgents.value = data
   } catch (err) {
     console.error('맞춤 추천 에이전트 로딩 실패:', err)
   }

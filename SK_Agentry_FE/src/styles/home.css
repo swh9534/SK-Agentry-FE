@@ -80,7 +80,7 @@
   /* ──────────────── 카드 자체 ──────────────── */
   .agent-card {
     background: white;
-    border: 3px solid #f47725;
+    border: 2px solid #f47725;
     border-radius: 10px;
     padding: 16px;
     min-width: 250px;
