@@ -95,6 +95,7 @@
   }
   
   .agent-desc {
+    max-width: 700px;
     font-size: 14px;
     color: #444;
     margin-bottom: 12px;

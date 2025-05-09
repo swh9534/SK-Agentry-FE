@@ -20,13 +20,7 @@
         <h2 class="market-title">에이전트 마켓</h2>
 
         <div class="filter-bar">
-          <select v-model="selectedIndustry">
-            <option value="">산업군 선택</option>
-            <option v-for="industry in industries" :key="industry" :value="industry">
-              {{ industry }}
-            </option>
-          </select>
-
+          <!-- 관심 분야 => category 기준 -->
           <select v-model="selectedInterest">
             <option value="">관심 분야 선택</option>
             <option v-for="interest in interests" :key="interest" :value="interest">
@@ -34,11 +28,13 @@
             </option>
           </select>
 
-          <select v-model="selectedSort">
-            <option value="latest">최신순</option>
-            <option value="popular">인기순</option>
-            <option value="price">가격순</option>
+          <!-- 산업군 => llm_type 기준 -->
+          <select v-model="selectedIndustry">
+            <option value="">LLM 선택</option>
+            <option value="GPT-4o">GPT-4o</option>
+            <option value="Claude-3.5-sonnet">Claude-3.5-sonnet</option>
           </select>
+
         </div>
 
         <div class="agent-list">
@@ -49,53 +45,68 @@
   </div>
 </template>
 
-
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import AgentCard from './AgentCard.vue'
 import '../styles/agentMarket.css'
 import { useRouter } from 'vue-router'
 import { usePurchaseStore } from '../composables/usePurchaseStore'
+
 const { addPurchase } = usePurchaseStore()
-
-
-
 const router = useRouter()
-
-const industries = ['공공', '제조', '금융', '유통/물류', 'IT/통신', '서비스업', '기타']
-const interests = ['스마트 팩토리', 'ESG', '고객 상담 자동화', '문서 자동화', 'AI 분석', '업무 효율화']
 
 const selectedIndustry = ref('')
 const selectedInterest = ref('')
 const selectedSort = ref('latest')
-const agents = ref([
-  {
-    id: 1,
-    name: '이메일 분류 마법사',
-    description: '수신 이메일을 자동으로 분류하는 에이전트',
-    tags: ['메일', '문서 자동화'],
-    industry: 'IT/통신',
-    purchased: false,
-    downloadUrl: '/downloads/email_sorter.py',
-    createdAt: '2024-05-01'
-  },
-  {
-    id: 2,
-    name: '슬랙 회의 요약봇',
-    description: 'GPT-4 기반 회의 자동 요약 시스템',
-    tags: ['협업', '문서 자동화'],
-    industry: '서비스업',
-    purchased: false,
-    downloadUrl: '/downloads/slack_summary.py',
-    createdAt: '2024-05-07'
+
+const agents = ref([])
+
+const fetchAllAgents = async () => {
+  try {
+    const token = localStorage.getItem('accessToken')
+    const res = await fetch('http://10.250.172.225:8000/agent/all', {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+    const data = await res.json()
+
+    // 백엔드에서 내려주는 구조에 따라 변환 필요 시 이 부분 조정
+    agents.value = (data.agents || data).map(agent => ({
+      id: agent.agent_id,
+      display_name: agent.display_name,
+      description: agent.description || '설명이 없습니다.',
+      category: agent.category,
+      llm_type: agent.llm_type,
+      language: agent.language || '한국어',
+      purchased: false,
+      createdAt: agent.created_at || '2024-01-01',
+    }))
+
+  } catch (err) {
+    console.error('에이전트 목록 불러오기 실패:', err)
   }
-])
+}
+
+onMounted(fetchAllAgents)
+
+// 관심분야 목록 자동 추출
+const interests = computed(() => {
+  const categories = agents.value.map(agent => agent.category)
+  return [...new Set(categories.filter(Boolean))] // 중복 제거 + 빈값 제외
+})
+// llm 목록 자동 추출
+const llms = computed(() => {
+  const types = agents.value.map(agent => agent.llm_type)
+  return [...new Set(types.filter(Boolean))]
+})
+
 
 const filteredAgents = computed(() => {
   let filtered = agents.value.filter(agent => {
-    const matchIndustry = !selectedIndustry.value || agent.industry === selectedIndustry.value
-    const matchInterest = !selectedInterest.value || agent.tags.includes(selectedInterest.value)
-    return matchIndustry && matchInterest
+    const matchCategory = !selectedInterest.value || agent.category === selectedInterest.value
+    const matchLLM = !selectedIndustry.value || agent.llm_type === selectedIndustry.value
+    return matchCategory && matchLLM
   })
 
   if (selectedSort.value === 'latest') {
@@ -105,7 +116,9 @@ const filteredAgents = computed(() => {
   return filtered
 })
 
+
+
 function goToDetail(id) {
-  router.push(`/agents/${id}`);
+  router.push(`/agents/${id}`)
 }
 </script>
