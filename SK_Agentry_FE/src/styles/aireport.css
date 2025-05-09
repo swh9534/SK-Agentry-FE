@@ -19,15 +19,36 @@ body {
 
 /* 보고서 전체 */
 .report-wrapper {
-  max-width: 1000px;
-  margin: 60px auto;
-  padding: 48px 40px;
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  position: relative;
+  background-color: white;
+  padding: 32px;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+  max-width: 960px;
+  margin: 40px auto;
+  line-height: 1.7;
 }
 
+.markdown h1,
+.markdown h2,
+.markdown h3 {
+  margin-top: 24px;
+  margin-bottom: 12px;
+}
+
+.markdown p {
+  margin-bottom: 12px;
+  font-size: 15px;
+  color: #333;
+}
+
+.markdown ul {
+  padding-left: 20px;
+  margin-bottom: 12px;
+}
+
+.markdown li {
+  margin-bottom: 6px;
+}
 
 /* 제목 및 날짜 */
 .report-title {
@@ -178,4 +199,35 @@ th {
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+.back-home-wrapper {
+  text-align: center;
+  margin-top: 40px;
+  margin-bottom: 60px;
+}
+
+.back-home-button {
+  display: inline-block;
+  background-color: #ea002c;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 14px;
+  transition: background-color 0.2s ease;
+}
+
+.back-home-button:hover {
+  background-color: #c90027;
+}
+
+.analysis-divider {
+  display: block;
+  height: 1px;
+  background-color: #000;
+  border: none;
+  margin: 32px auto;
+  max-width: 960px;
 }

@@ -66,6 +66,8 @@ const handleLogin = async () => {
     if (response.ok && result.access_token) {
       // 토큰 저장
       localStorage.setItem('accessToken', result.access_token)
+      localStorage.setItem('user_id', result.user.user_id)
+
 
       router.push('/home')
     } else {

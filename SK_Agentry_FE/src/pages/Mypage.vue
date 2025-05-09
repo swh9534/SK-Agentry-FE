@@ -49,6 +49,11 @@
                     <button class="retry-btn">다시 하기</button>
                     <button class="view-btn" @click="goToReport">결과 보기</button>
                 </div>
+                <div class="report-result" v-if="renderedMarkdown">
+                    <h2>분석 결과</h2>
+                    <div class="markdown" v-html="renderedMarkdown"></div>
+                </div>
+
             </div>
 
             <div class="logout-area">
@@ -56,15 +61,23 @@
             </div>
         </div>
     </div>
+
+
 </template>
 
 <script setup>
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { usePurchaseStore } from '../composables/usePurchaseStore'
+import { marked } from 'marked'
+
+const renderedMarkdown = ref('')
 
 const { purchasedAgents } = usePurchaseStore()
 const router = useRouter()
+
+const token = localStorage.getItem('accessToken')
+const userId = Number(localStorage.getItem('user_id'))
 
 const companyInfo = ref({
     name: '',
@@ -76,17 +89,41 @@ const handleLogout = () => {
     router.push('/login')
 }
 
-const goToReport = () => {
-    router.push('/ai-report')
+async function goToReport() {
+    const userRes = await fetch(`http://10.250.172.225:8000/user/${userId}`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+    })
+    const userData = await userRes.json()
+    const latestReport = userData.reports.at(-1)
+    const reportId = latestReport.user_report_id
+
+    const mdRes = await fetch(`http://10.250.172.225:8000/agent/report/${reportId}/content`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+    })
+
+    let rawText = await mdRes.text()
+    rawText = rawText
+        .replace(/^"(.*)"$/, '$1')
+        .replace(/\\"/g, '"')
+        .replace(/\\n/g, '\n')
+        .replace(/\\r/g, '')
+        .replace(/\\t/g, '\t')
+        .replace(/^```markdown\s*/i, '')
+        .replace(/```$/, '');
+
+    renderedMarkdown.value = marked(rawText)
 }
 
 onMounted(async () => {
-    const userId = localStorage.getItem('loggedInUser')
+    const userId = localStorage.getItem('user_id') 
     if (!userId) return
 
     try {
-        const res = await fetch(`http://10.250.172.225:8000/user/info/${userId}`)
+        const res = await fetch(`http://10.250.172.225:8000/user/${userId}`)
         const data = await res.json()
+
+        console.log('기업 정보:', data)
+
         companyInfo.value = {
             name: data.name,
             industry: data.industry,

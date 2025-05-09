@@ -6,6 +6,7 @@ import AiReport from '../pages/AiReport.vue'
 import AgentDetail from '../pages/AgentDetail.vue'
 import Mypage from '../pages/Mypage.vue'
 import HomePage from '../pages/HomePage.vue'
+import AgentRun from '../pages/AgentRun.vue'
 
 const routes = [
   { path: '/login', component: LoginPage },
@@ -15,7 +16,7 @@ const routes = [
   { path: '/agents/:id', component: AgentDetail },
   { path: '/mypage', component: Mypage },
   { path: '/home', component: HomePage },
-  
+  { path: '/agent-run/:id', name: 'AgentRun', component: AgentRun },
   { path: '/', redirect: '/login' }
 ]
 

@@ -1,0 +1,65 @@
+
+  .run-content {
+    max-width: 860px;
+    margin: 40px auto;
+    background: white;
+    padding: 32px;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+  }
+  
+  .agent-title {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 12px;
+    color: #ea002c;
+  }
+  
+  .agent-desc {
+    font-size: 15px;
+    margin-bottom: 20px;
+    color: #444;
+  }
+  
+  .input-label {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 6px;
+    display: block;
+  }
+  
+  textarea {
+    width: 100%;
+    min-height: 120px;
+    padding: 12px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    resize: vertical;
+    margin-bottom: 16px;
+  }
+  
+  .run-button {
+    background-color: #ea002c;
+    color: white;
+    font-weight: bold;
+    padding: 12px 24px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .run-button:hover {
+    background-color: #c90027;
+  }
+  
+  .loading-msg {
+    font-size: 14px;
+    color: #666;
+    margin-top: 20px;
+  }
+  
+  .markdown {
+    margin-top: 32px;
+    line-height: 1.7;
+  }

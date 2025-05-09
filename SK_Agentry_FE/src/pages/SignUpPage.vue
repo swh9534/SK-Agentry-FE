@@ -84,9 +84,6 @@ async function submitForm() {
     const result = await response.json()
 
     if (response.ok && result.success) {
-
-      localStorage.setItem('user_id', result.user_id)
-      
       alert('회원가입이 완료되었습니다.')
       router.push('/login')
     } else {
