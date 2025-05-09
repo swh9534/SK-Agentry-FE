@@ -48,23 +48,26 @@
 </template>
 
 <script setup>
-import { useRoute } from 'vue-router'
+import { ref, onMounted } from "vue";
+import { useRoute } from "vue-router";
+import AgentDetail from "../components/AgentDetail.vue";
 
-const route = useRoute()
-const agentId = route.params.id
+const route = useRoute();
+const agentId = route.params.id;
+const agent = ref(null);
 
-const agent = {
-  id: agentId,
-  name: '이메일 분류 마법사',
-  description: 'GPT-4 + Python 기반 이메일 자동 분류',
-  price: 29000,
-  image: '../public/email_magician.png',
-  features: [
-    '수신 이메일 내용 분류하여 태그 지정',
-    'ERP 시스템과 통합 가능',
-    'Gmail OAuth 인증 지원'
-  ]
-}
+onMounted(async () => {
+  try {
+    const res = await fetch(
+      `http://10.250.172.225:8000/agent/detail/${agentId}`
+    );
+    if (!res.ok) throw new Error("API error");
+    const data = await res.json();
+    agent.value = data;
+  } catch (err) {
+    console.error("에이전트 불러오기 실패", err);
+  }
+});
 </script>
 
 <style scoped src="../styles/agentDetail.css" />
