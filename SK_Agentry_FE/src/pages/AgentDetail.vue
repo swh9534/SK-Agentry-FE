@@ -14,12 +14,12 @@
       </nav>
     </header>
 
-    <!-- 상세 본문 -->
-    <div class="agent-detail-container">
+    <!-- 에이전트 상세 내용 -->
+    <div v-if="agent" class="agent-detail-container">
       <div class="header">
-        <h1>{{ agent.name }}</h1>
+        <h1>{{ agent.display_name }}</h1>
         <p class="sub">{{ agent.description }}</p>
-        <div class="price">₩{{ agent.price.toLocaleString() }}</div>
+        <div class="price">₩{{ price.toLocaleString() }}</div>
       </div>
 
       <div class="tabs">
@@ -31,30 +31,49 @@
 
       <div class="content-area">
         <div class="image-box">
-          <img :src="agent.image" alt="agent image" />
+          <img :src="agent.image_url || '/default.png'" alt="agent image" />
         </div>
 
         <div class="features">
           <h3>주요 기능</h3>
           <ul>
-            <li v-for="item in agent.features" :key="item">• {{ item }}</li>
+            <li v-for="feature in parsedFeatures" :key="feature">
+              • {{ feature }}
+            </li>
           </ul>
         </div>
       </div>
 
       <button class="run-button">실행하기</button>
     </div>
+
+    <!-- ✅ 로딩 표시 -->
+    <div v-else class="loading-message">
+      <p>에이전트 정보를 불러오는 중...</p>
+    </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, computed, onMounted } from "vue";
 import { useRoute } from "vue-router";
-import AgentDetail from "../components/AgentDetail.vue";
 
 const route = useRoute();
 const agentId = route.params.id;
 const agent = ref(null);
+
+const price = 29000; // 필요 시 agent.price로 교체 가능
+
+const parsedFeatures = computed(() => {
+  if (!agent.value || !agent.value.features) return [];
+  try {
+    return typeof agent.value.features === "string"
+      ? JSON.parse(agent.value.features)
+      : agent.value.features;
+  } catch {
+    return [];
+  }
+});
 
 onMounted(async () => {
   try {
