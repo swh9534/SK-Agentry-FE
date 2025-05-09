@@ -73,7 +73,7 @@ async function generateAndLoadReport() {
   try {
     startLoading()
 
-    const postRes = await fetch('http://10.250.172.225:8000/agent/analyze', {
+    const postRes = await fetch('http://10.250.73.224:8000/agent/analyze', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -83,14 +83,14 @@ async function generateAndLoadReport() {
     })
     if (!postRes.ok) throw new Error('리포트 생성 실패')
 
-    const userRes = await fetch(`http://10.250.172.225:8000/user/${userId}`, {
+    const userRes = await fetch(`http://10.250.73.224:8000/user/${userId}`, {
       headers: { 'Authorization': `Bearer ${token}` }
     })
     const userData = await userRes.json()
     const latestReport = userData.reports.at(-1)
     const reportId = latestReport.user_report_id
 
-    const mdRes = await fetch(`http://10.250.172.225:8000/agent/report/${reportId}/content`, {
+    const mdRes = await fetch(`http://10.250.73.224:8000/agent/report/${reportId}/content`, {
       headers: { 'Authorization': `Bearer ${token}` }
     })
 

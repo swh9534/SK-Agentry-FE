@@ -7,7 +7,59 @@
     border-radius: 12px;
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
   }
+  .run-button {
+    background-color: #ea002c;
+    color: white;
+    font-weight: bold;
+    padding: 12px 24px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    display: block;
+    margin: 24px auto 12px; /* 가운데 정렬 + 위쪽 여백 */
+  }
+  .input-group {
+    max-width: 400px;
+    margin: 0 auto 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
   
+  .input-field {
+    padding: 10px 12px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    transition: border 0.2s;
+  }
+  
+  .input-field:focus {
+    border-color: #ea002c;
+    outline: none;
+  }
+  
+  .run-button {
+    display: block;
+    margin: 0 auto;
+    background-color: #ea002c;
+    color: white;
+    font-weight: bold;
+    padding: 12px 24px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .run-button:hover {
+    background-color: #c90027;
+  }
+  
+  .run-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
   .agent-title {
     font-size: 22px;
     font-weight: bold;
@@ -18,6 +70,7 @@
   .agent-desc {
     font-size: 15px;
     margin-bottom: 20px;
+    max-width: 100%;       
     color: #444;
   }
   

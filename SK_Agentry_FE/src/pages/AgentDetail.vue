@@ -80,7 +80,7 @@ const parsedFeatures = computed(() => {
 onMounted(async () => {
   try {
     const res = await fetch(
-      `http://10.250.172.225:8000/agent/detail/${agentId}`
+      `http://10.250.73.224:8000/agent/detail/${agentId}`
     );
     if (!res.ok) throw new Error("API error");
     const data = await res.json();

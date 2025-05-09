@@ -1,6 +1,5 @@
 <template>
   <div class="run-wrapper">
-    <!-- 내비게이션 바 -->
     <header class="nav-bar">
       <div class="logo-box">
         <router-link to="/home">
@@ -14,13 +13,21 @@
       </nav>
     </header>
 
-    <!-- 실행 화면 -->
     <div class="run-content">
       <h2 class="agent-title">{{ agent.display_name }}</h2>
       <p class="agent-desc">{{ agent.description }}</p>
 
-      <label class="input-label">{{ agent.input_guide }}</label>
-      <textarea v-model="userInput" placeholder="입력하세요..." />
+      <!-- 기존 입력란들 제거하고 아래처럼 대체 -->
+      <div class="input-group">
+        <label class="input-label">회사명</label>
+        <input class="input-field" v-model="form.company_name" placeholder="예: 우리금융" />
+
+        <label class="input-label">AI 도입 목표</label>
+        <input class="input-field" v-model="form.ai_goal" placeholder="예: 문서 자동화" />
+
+        <label class="input-label">투자 예산 (원)</label>
+        <input class="input-field" v-model.number="form.investment_amount" type="number" placeholder="예: 1000000" />
+      </div>
 
       <button class="run-button" @click="executeAgent" :disabled="loading">
         실행하기
@@ -41,18 +48,23 @@ import { marked } from "marked";
 const route = useRoute();
 const agentId = route.params.id;
 const agent = ref({});
-const userInput = ref("");
 const loading = ref(false);
 const result = ref("");
+const form = ref({
+  company_name: "",
+  investment_amount: 0,
+  ai_goal: ""
+});
 
 const token = localStorage.getItem("accessToken");
 
 onMounted(async () => {
   try {
-    const res = await fetch(`http://10.250.172.225:8000/agent/detail/${agentId}`, {
+    const res = await fetch(`http://10.250.73.224:8000/agent/detail/${agentId}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
-    agent.value = await res.json();
+    const data = await res.json();
+    agent.value = data;
   } catch (err) {
     alert("에이전트 정보를 불러오는 데 실패했습니다.");
     console.error(err);
@@ -60,15 +72,19 @@ onMounted(async () => {
 });
 
 async function executeAgent() {
-  if (!userInput.value) {
-    alert("입력을 작성해 주세요.");
+  const { company_name, investment_amount, ai_goal } = form.value;
+
+  if (!company_name || !ai_goal || !investment_amount) {
+    alert("모든 항목을 입력해 주세요.");
     return;
   }
 
   loading.value = true;
 
+  console.log(agent.value.name)
+
   try {
-    const res = await fetch(`http://10.250.172.225:8000/run_agent/${agentId}`, {
+    const res = await fetch(`http://10.250.73.224:8000/run_agent/${agent.value.name}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -76,22 +92,19 @@ async function executeAgent() {
       },
       body: JSON.stringify({
         input_data: {
-          // ✅ 서버가 요구하는 key
-          input: userInput.value,
-          tools: [], // 필요 시 tool 이름 배열로 추가
+          input: {
+            company_name,
+            investment_amount,
+            ai_goal
+          },
         },
+        tools: []
       }),
     });
 
-    let raw = await res.text();
-    raw = raw
-      .replace(/^"(.*)"$/, "$1")
-      .replace(/\\"/g, '"')
-      .replace(/\\n/g, "\n")
-      .replace(/\\r/g, "")
-      .replace(/\\t/g, "\t");
+    const raw = await res.json()
+    result.value = marked(raw.result.output || '# 결과를 찾을 수 없습니다.')
 
-    result.value = marked(raw);
   } catch (err) {
     alert("에이전트 실행 중 오류가 발생했습니다.");
     console.error(err);
@@ -100,4 +113,5 @@ async function executeAgent() {
   }
 }
 </script>
+
 <style scoped src="../styles/agentRun.css"></style>

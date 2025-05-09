@@ -95,14 +95,14 @@ function handleRetry() {
 }
 
 async function goToReport() {
-    const userRes = await fetch(`http://10.250.172.225:8000/user/${userId}`, {
+    const userRes = await fetch(`http://10.250.73.224:8000/user/${userId}`, {
         headers: { 'Authorization': `Bearer ${token}` }
     })
     const userData = await userRes.json()
     const latestReport = userData.reports.at(-1)
     const reportId = latestReport.user_report_id
 
-    const mdRes = await fetch(`http://10.250.172.225:8000/agent/report/${reportId}/content`, {
+    const mdRes = await fetch(`http://10.250.73.224:8000/agent/report/${reportId}/content`, {
         headers: { 'Authorization': `Bearer ${token}` }
     })
 
@@ -124,7 +124,7 @@ onMounted(async () => {
     if (!userId) return
 
     try {
-        const res = await fetch(`http://10.250.172.225:8000/user/${userId}`, {
+        const res = await fetch(`http://10.250.73.224:8000/user/${userId}`, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }

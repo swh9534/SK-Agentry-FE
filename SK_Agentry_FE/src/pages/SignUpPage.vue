@@ -71,7 +71,7 @@ async function submitForm() {
   }
 
   try {
-    const response = await fetch('http://10.250.172.225:8000/user/register', {
+    const response = await fetch('http://10.250.73.224:8000/user/register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

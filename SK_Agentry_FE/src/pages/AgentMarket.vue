@@ -64,7 +64,7 @@ const agents = ref([])
 const fetchAllAgents = async () => {
   try {
     const token = localStorage.getItem('accessToken')
-    const res = await fetch('http://10.250.172.225:8000/agent/all', {
+    const res = await fetch('http://10.250.73.224:8000/agent/all', {
       headers: {
         Authorization: `Bearer ${token}`
       }

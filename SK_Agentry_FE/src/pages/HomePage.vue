@@ -79,7 +79,7 @@ const itemsPerSlide = 3
 
 const fetchRecommendedAgents = async () => {
   try {
-    const res = await fetch(`http://10.250.172.225:8000/agent/getRecom`, {
+    const res = await fetch(`http://10.250.73.224:8000/agent/getRecom`, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
@@ -104,7 +104,7 @@ const fetchRecommendedAgents = async () => {
 
 const fetchAllAgents = async () => {
   try {
-    const res = await fetch('http://10.250.172.225:8000/agent/all', {
+    const res = await fetch('http://10.250.73.224:8000/agent/all', {
       headers: {
         'Authorization': `Bearer ${token}`
       }
