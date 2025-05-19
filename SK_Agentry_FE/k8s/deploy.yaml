@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: SK_Agentry_FE
-  namespace: skala-edu
+  namespace: skala-practice   
 spec:
   replicas: 1
   selector:
@@ -20,13 +20,13 @@ spec:
     spec:
       serviceAccountName: default
       containers:
-      - name: SK_Agentry_FE
-        image: amdp-registry.skala-ai.com/skala25a/SK_Agentry_FE:1.0.0
-        imagePullPolicy: Always
-        env:
-        - name: LOGGING_LEVEL
-          value: DEBUG
-        - name: USER_NAME
-          value: skala
-        - name: NAMESPACE
-          value: skala-edu
+        - name: SK_Agentry_FE
+          image: amdp-registry.skala-ai.com/skala25a/SK_Agentry_FE:1.0.0
+          imagePullPolicy: Always
+          env:
+            - name: LOGGING_LEVEL
+              value: DEBUG
+            - name: USER_NAME
+              value: skala
+            - name: NAMESPACE
+              value: skala-edu
