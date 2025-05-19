@@ -1,13 +1,13 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: SK_Agentry_FE
+  name: sk-agentry-fe
   namespace: skala-practice   
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: SK_Agentry_FE
+      app: sk-agentry-fe
   template:
     metadata:
       annotations:
@@ -16,12 +16,12 @@ spec:
         prometheus.io/path: '/actuator/prometheus'
         update: 09bb72ef7dcb3ee947516afa1d43e3c2
       labels:
-        app: SK_Agentry_FE
+        app: sk-agentry-fe
     spec:
       serviceAccountName: default
       containers:
-        - name: SK_Agentry_FE
-          image: amdp-registry.skala-ai.com/skala25a/SK_Agentry_FE:1.0.0
+        - name: sk-agentry-fe
+          image: amdp-registry.skala-ai.com/skala25a/sk059-sk-agentry-fe:2.0.0
           imagePullPolicy: Always
           env:
             - name: LOGGING_LEVEL
