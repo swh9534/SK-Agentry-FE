@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: sk-agentry-fe
+  name: sk044-agentry-ai
   namespace: skala-practice
 spec:
   selector:
-    app: sk-agentry-fe
+    app: sk044-agentry-ai
   ports:
     - name: http
       protocol: TCP

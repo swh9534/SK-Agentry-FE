@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sk044-agentry-ai
+  namespace: skala-practice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sk044-agentry-ai
+  template:
+    metadata:
+      annotations:
+        prometheus.io/scrape: 'true'
+        prometheus.io/port: '8081'
+        prometheus.io/path: '/actuator/prometheus'
+        update: 01b1c22af1ef272b35b0a6761ae3f1d3
+      labels:
+        app: sk044-agentry-ai
+    spec:
+      serviceAccountName: default
+      containers:
+      - name: agentry-ai
+        image: amdp-registry.skala-ai.com/skala25a/sk044-agentry-ai:1.0.0
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 8081
+        env:
+          - name: LOGGING_LEVEL
+            value: DEBUG
+          - name: USER_NAME
+            value: sk044
+          - name: NAMESPACE
+            value: skala-practice
+          - name: SPRING_PROFILES_ACTIVE
+            value: prod
+        envFrom:
+          - secretRef:
+              name: agentry-ai-secrets

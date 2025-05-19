@@ -1,43 +1,45 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: sk-agentry-fe-ingress
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+  name: sk044-cm-tls-ingress
   namespace: skala-practice
 spec:
   ingressClassName: public-nginx
   rules:
-  - host: sk-agentry-fe.skala25a.project.skala-ai.com
+  - host: sk044-tls.skala25a.project.skala-ai.com
     http:
       paths:
       - backend:
           service:
-            name: sk-agentry-fe
+            name: sk044-agentry-fe
             port:
               number: 8080
         path: /api
         pathType: Prefix
       - backend:
           service:
-            name: sk-agentry-fe
+            name: sk044-agentry-fe
             port:
               number: 8081
         path: /actuator
         pathType: Prefix
       - backend:
           service:
-            name: sk-agentry-fe
+            name: sk044-agentry-fe
             port:
               number: 8080
         path: /swagger
         pathType: Prefix
       - backend:
           service:
-            name: sk-agentry-fe
+            name: sk044-agentry-fe
             port:
               number: 8080
         path: /
         pathType: Prefix
   tls:
   - hosts:
-    - sk-agentry-fe.skala25a.project.skala-ai.com
-    secretName: sk059-manual-tls-secret
+    - sk044-tls.skala25a.project.skala-ai.com
+    secretName: sk044-cm-auto-tls-secret
