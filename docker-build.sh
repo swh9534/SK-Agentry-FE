@@ -1,7 +1,7 @@
 #!/bin/bash
-NAME=sk059
+NAME=sk044
 IMAGE_NAME="sk-agentry-fe"
-VERSION="2.0.0"
+VERSION="1.0.0"
 
 # Docker 이미지 빌드
 docker build \

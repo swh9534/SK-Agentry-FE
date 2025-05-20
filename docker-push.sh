@@ -1,8 +1,8 @@
 #!/bin/bash
 
-NAME=sk059
+NAME=sk044
 IMAGE_NAME="sk-agentry-fe"
-VERSION="2.0.0"
+VERSION="1.0.0"
 
 DOCKER_REGISTRY="amdp-registry.skala-ai.com/skala25a"
 DOCKER_REGISTRY_USER="robot\$skala25a"

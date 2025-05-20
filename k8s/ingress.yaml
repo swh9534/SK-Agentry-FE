@@ -13,28 +13,28 @@ spec:
       paths:
       - backend:
           service:
-            name: sk044-agentry-fe
+            name: sk044-sk-agentry-fe
             port:
               number: 8080
         path: /api
         pathType: Prefix
       - backend:
           service:
-            name: sk044-agentry-fe
+            name: sk044-sk-agentry-fe
             port:
               number: 8081
         path: /actuator
         pathType: Prefix
       - backend:
           service:
-            name: sk044-agentry-fe
+            name: sk044-sk-agentry-fe
             port:
               number: 8080
         path: /swagger
         pathType: Prefix
       - backend:
           service:
-            name: sk044-agentry-fe
+            name: sk044-sk-agentry-fe
             port:
               number: 8080
         path: /
